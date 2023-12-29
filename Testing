@@ -1,0 +1,116 @@
+// Pins for charlieplexing
+const int cpPins[] = {13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2};
+
+void setup() {
+  // Set charlieplexing pins as outputs
+  for (int i = 0; i < sizeof(cpPins) / sizeof(cpPins[0]); ++i) {
+    pinMode(cpPins[i], OUTPUT);
+  }
+}
+
+void loop() {
+  // Blinking code with a 5-second time limit
+  blink(5000);
+
+  // Charlieplexing with a 5-second time limit
+  charlieplex(5000);
+
+  // LED chaser with a 5-second time limit
+  chaser(5000);
+
+  // Alternate Blink with a 5-second time limit
+  alternateBlink(5000);
+
+  // Running Lights with a 5-second time limit
+  runningLights(5000);
+
+  // Christmas Lights with a 5-second time limit
+  christmasLights(5000);
+}
+
+void blink(int timeLimit) {
+  unsigned long startTime = millis();
+
+  while (millis() - startTime < timeLimit) {
+    digitalWrite(13, HIGH);
+    digitalWrite(12, HIGH);
+    delay(500);
+    digitalWrite(13, LOW);
+    digitalWrite(12, LOW);
+    delay(500);
+  }
+}
+
+void charlieplex(int timeLimit) {
+  unsigned long startTime = millis();
+
+  while (millis() - startTime < timeLimit) {
+    for (int i = 0; i < sizeof(cpPins) / sizeof(cpPins[0]); ++i) {
+      for (int j = 0; j < sizeof(cpPins) / sizeof(cpPins[0]); ++j) {
+        if (i != j) {
+          digitalWrite(cpPins[i], HIGH);
+          digitalWrite(cpPins[j], LOW);
+          delay(100);
+        }
+      }
+    }
+  }
+}
+
+void chaser(int timeLimit) {
+  unsigned long startTime = millis();
+
+  while (millis() - startTime < timeLimit) {
+    for (int pin = 13; pin >= 2; --pin) {
+      digitalWrite(pin, HIGH);
+      delay(100);
+      digitalWrite(pin, LOW);
+    }
+  }
+}
+
+void alternateBlink(int timeLimit) {
+  unsigned long startTime = millis();
+
+  while (millis() - startTime < timeLimit) {
+    digitalWrite(13, HIGH);
+    delay(250);
+    digitalWrite(12, HIGH);
+    delay(250);
+    digitalWrite(13, LOW);
+    digitalWrite(12, LOW);
+    delay(250);
+  }
+}
+
+void runningLights(int timeLimit) {
+  unsigned long startTime = millis();
+
+  while (millis() - startTime < timeLimit) {
+    for (int pin = 13; pin >= 2; --pin) {
+      digitalWrite(pin, HIGH);
+      delay(100);
+      digitalWrite(pin, LOW);
+    }
+    for (int pin = 2; pin <= 13; ++pin) {
+      digitalWrite(pin, HIGH);
+      delay(100);
+      digitalWrite(pin, LOW);
+    }
+  }
+}
+
+void christmasLights(int timeLimit) {
+  unsigned long startTime = millis();
+
+  while (millis() - startTime < timeLimit) {
+    for (int i = 0; i < sizeof(cpPins) / sizeof(cpPins[0]); ++i) {
+      if (random(2) == 0) {
+        digitalWrite(cpPins[i], HIGH);
+        delay(random(50, 200));
+        digitalWrite(cpPins[i], LOW);
+        delay(random(50, 200));
+      }
+    }
+  }
+}
